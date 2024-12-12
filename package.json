@@ -1,0 +1,25 @@
+{
+  "name": "stardew-valley-widget",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "5.0.1",
+    "@tsconfig/svelte": "5.0.4",
+    "svelte": "5.8.1",
+    "svelte-check": "4.1.1",
+    "tslib": "2.8.1",
+    "typescript": "5.7.2",
+    "vite": "6.0.3",
+    "vite-tsconfig-paths": "5.1.4"
+  },
+  "dependencies": {
+    "openmeteo": "1.1.4"
+  }
+}

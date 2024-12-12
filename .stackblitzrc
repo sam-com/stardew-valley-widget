@@ -1,0 +1,5 @@
+{
+  "compileTrigger": "save",
+  "installDependencies": true,
+  "startCommand": "pnpm dev"
+}

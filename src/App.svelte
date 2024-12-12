@@ -1,0 +1,26 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+
+  import Background from "@components/Background.svelte";
+  import Clock from "@components/clock/Clock.svelte";
+  import { fetchMeteo, meteoStore } from "@stores/meteoStore.svelte";
+
+  onMount(() => fetchMeteo())
+</script>
+
+<main class="mainContainer">
+  {#if $meteoStore.error}
+    <p>Error: {error.message}</p>
+  {:else}
+    <Background daylight={$meteoStore.data.daylight} />
+    <Clock meteo={$meteoStore.data} />
+  {/if}
+</main>
+
+<style>
+  .mainContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin: 5%;
+  }
+</style>

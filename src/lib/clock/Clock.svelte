@@ -38,7 +38,7 @@
   .stardewFont {
     font-family: 'Stardew Valley';
     letter-spacing: 4px;
-    font-size: 20cqw;
+    font-size: 17cqw;
     font-weight: bold;
   }
 </style>

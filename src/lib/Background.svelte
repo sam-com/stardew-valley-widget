@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { blur } from 'svelte/transition';
-  import { cubicInOut } from 'svelte/easing';
+  import { blur } from "svelte/transition";
+  import { cubicInOut } from "svelte/easing";
 
   import winterDay from "@assets/bg/winter_day.png";
   import winterNight from "@assets/bg/winter_night.png";
@@ -10,48 +10,77 @@
   import summerNight from "@assets/bg/summer_night.png";
   import fallDay from "@assets/bg/fall_day.png";
   import fallNight from "@assets/bg/fall_night.png";
-  
-  const allBackgrounds = [winterDay,winterNight,sprintDay,springNight,summerDay,summerNight,fallDay,fallNight];
 
-  let { daylight } = $props();
+  const allBackgrounds = [
+    winterDay,
+    winterNight,
+    sprintDay,
+    springNight,
+    summerDay,
+    summerNight,
+    fallDay,
+    fallNight,
+  ];
+
+  let {} = $props();
   let current = $state(0);
 
-  $inspect(current)
+  $inspect(current);
 
   $effect(() => {
     const handle = setInterval(() => {
       current = (current + 1) % allBackgrounds.length;
-    },3000);
+    }, 10000);
 
-    return () => {clearInterval(handle)}
-  })
-
+    return () => {
+      clearInterval(handle);
+    };
+  });
 </script>
 
 <div class="backgroundContainer">
-  {#each allBackgrounds as bg,idx}
+  {#each allBackgrounds as bg, idx}
     {#if idx === current}
-      <img alt="background" class="background" src={bg} transition:blur={{easing:cubicInOut, duration:2000 }} />
+      {@render background(bg)}
     {/if}
   {/each}
 </div>
 
+{#snippet background(bg: string)}
+  <img
+    alt="background"
+    class="background"
+    src={bg}
+    transition:blur={{ easing: cubicInOut, duration: 3000 }}
+  />
+{/snippet}
 
 <style>
   .backgroundContainer {
     position: fixed;
-    display:grid;
+    display: grid;
     top: 0;
-    left:0;
+    left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
+    animation: slide 60s ease infinite alternate;
   }
 
   .background {
     object-fit: cover;
-    object-position: left;
-    height:100%;
+    object-position: inherit;
+    height: 100%;
     grid-area: 1/1/2/2;
+  }
+
+  @keyframes slide {
+    0% {
+      object-position: left top;
+    }
+
+    100% {
+      object-position: right bottom;
+    }
   }
 </style>

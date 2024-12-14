@@ -1,21 +1,21 @@
-import { fetchWeatherApi } from 'openmeteo';
+import { fetchWeatherApi } from "openmeteo";
+import { getGeoPosition } from "./getGeoPosition";
+import { getSeason, Season } from "./getSeason";
 
 const params = {
-  latitude: 45.4001,
-  longitude: -71.8991,
   current: [
-    'temperature_2m',
-    'precipitation',
-    'rain',
-    'showers',
-    'snowfall',
-    'weather_code',
+    "temperature_2m",
+    "precipitation",
+    "rain",
+    "showers",
+    "snowfall",
+    "weather_code",
   ],
-  daily: ['sunrise', 'sunset'],
-  timezone: 'America/New_York',
+  daily: ["sunrise", "sunset"],
+  timezone: "America/New_York",
   forecast_days: 1,
 };
-const url = 'https://api.open-meteo.com/v1/forecast';
+const url = "https://api.open-meteo.com/v1/forecast";
 
 const bigIntToDate = (b: bigint) => new Date(Number(b) * 1000);
 
@@ -26,11 +26,20 @@ export type Meteo = {
   };
   weather: {
     weatherCode: number;
+    season: Season;
   };
 };
 
 export async function getMeteo(): Promise<Meteo> {
-  const responses = await fetchWeatherApi(url, params);
+  const {
+    coords: { latitude, longitude },
+  } = await getGeoPosition();
+  const responses = await fetchWeatherApi(url, {
+    ...params,
+    latitude,
+    longitude,
+  });
+
   const response = responses[0];
 
   const current = response.current()!;
@@ -48,6 +57,7 @@ export async function getMeteo(): Promise<Meteo> {
     },
     weather: {
       weatherCode,
+      season: getSeason(),
     },
   };
 }

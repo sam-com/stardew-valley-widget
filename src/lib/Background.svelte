@@ -10,6 +10,9 @@
   import summerNight from "@assets/bg/summer_night.png";
   import fallDay from "@assets/bg/fall_day.png";
   import fallNight from "@assets/bg/fall_night.png";
+  import { isNightTime } from "@/utils/daylight";
+  import { getDateInterval } from "./getDateInterval.svelte";
+  import type { Meteo } from "@/utils/getMeteo";
 
   const allBackgrounds = [
     winterDay,
@@ -22,25 +25,30 @@
     fallNight,
   ];
 
-  let {} = $props();
-  let current = $state(0);
+  interface BackgroundProps {
+    meteo: Meteo;
+  }
 
-  $inspect(current);
+  let { meteo }: BackgroundProps = $props();
+  let current = getDateInterval(10000);
+  let isNight = $derived(isNightTime({ current, ...meteo.daylight }));
+  let season = $derived(meteo.weather.season * 2 + +isNight);
+  // let season = $state(0);
 
-  $effect(() => {
-    const handle = setInterval(() => {
-      current = (current + 1) % allBackgrounds.length;
-    }, 10000);
+  // $effect(() => {
+  //   const handle = setInterval(() => {
+  //     season = (season + 1) % allBackgrounds.length;
+  //   }, 10000);
 
-    return () => {
-      clearInterval(handle);
-    };
-  });
+  //   return () => {
+  //     clearInterval(handle);
+  //   };
+  // });
 </script>
 
 <div class="backgroundContainer">
   {#each allBackgrounds as bg, idx}
-    {#if idx === current}
+    {#if idx === season}
       {@render background(bg)}
     {/if}
   {/each}
@@ -64,7 +72,7 @@
     width: 100%;
     height: 100%;
     z-index: -1;
-    animation: slide 60s ease infinite alternate;
+    animation: slide 20s linear infinite alternate;
   }
 
   .background {
@@ -76,11 +84,11 @@
 
   @keyframes slide {
     0% {
-      object-position: left top;
+      object-position: left center;
     }
 
     100% {
-      object-position: right bottom;
+      object-position: right center;
     }
   }
 </style>

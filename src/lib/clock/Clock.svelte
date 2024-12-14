@@ -4,7 +4,13 @@
   import Weather from "./Weather.svelte";
   import { getDateInterval } from "@components/getDateInterval.svelte";
   import { toDateString, toTimeString } from "@utils/time";
+
   import winter from "@assets/seasons/winter.svg";
+  import spring from "@assets/seasons/spring.svg";
+  import summer from "@assets/seasons/summer.svg";
+  import fall from "@assets/seasons/fall.svg";
+
+  let seasonAssets = [winter, spring, summer, fall];
 
   let { meteo } = $props();
   let currentDate = getDateInterval(1000);
@@ -27,7 +33,7 @@
 {/snippet}
 
 {#snippet season()}
-  <img src={winter} alt="season" />
+  <img src={seasonAssets[meteo.weather.season]} alt="season" />
 {/snippet}
 
 {#snippet time()}

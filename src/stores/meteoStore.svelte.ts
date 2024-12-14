@@ -1,5 +1,6 @@
-import { writable } from 'svelte/store';
-import { getMeteo, type Meteo } from '@utils/getMeteo';
+import { writable } from "svelte/store";
+import { getMeteo, type Meteo } from "@utils/getMeteo";
+import { Season } from "@/utils/getSeason";
 
 export type MeteoStore = {
   data: Meteo | null;
@@ -9,7 +10,7 @@ export type MeteoStore = {
 
 const INITIAL_STORE: Meteo = {
   daylight: { sunrise: new Date(NaN), sunset: new Date(NaN) },
-  weather: { weatherCode: 0 },
+  weather: { weatherCode: 0, season: Season.Winter },
 };
 
 export const meteoStore = writable<MeteoStore>({

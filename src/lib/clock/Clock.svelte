@@ -12,22 +12,22 @@
   let timeStr = $derived(toTimeString(currentDate));
 </script>
 
-<ClockLayout {date} {hand} {weather} {season} {time}/>
+<ClockLayout {date} {hand} {weather} {season} {time} />
 
 {#snippet date()}
   <p class="stardewFont">{dateStr}</p>
 {/snippet}
 
 {#snippet hand()}
-  <ClockHand daylight={meteo.daylight}/>
+  <ClockHand daylight={meteo.daylight} />
 {/snippet}
 
 {#snippet weather()}
-  <Weather weather={meteo.weather}/>
+  <Weather weather={meteo.weather} />
 {/snippet}
 
 {#snippet season()}
-  <img src={winter} />
+  <img src={winter} alt="season" />
 {/snippet}
 
 {#snippet time()}
@@ -36,7 +36,7 @@
 
 <style>
   .stardewFont {
-    font-family: 'Stardew Valley';
+    font-family: "Stardew Valley";
     letter-spacing: 4px;
     font-size: 17cqw;
     font-weight: bold;
